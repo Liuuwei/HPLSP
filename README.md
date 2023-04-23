@@ -1,2 +1,1 @@
-# HPLSP
-# Half synchronization-half-step
+# hah
