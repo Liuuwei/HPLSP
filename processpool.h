@@ -87,6 +87,7 @@ static void addfd(int epollfd, int fd)
 static void removefd(int epollfd, int fd)
 {
     epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, 0);
+    close(fd);
 }
 
 static void sig_handler(int sig)
@@ -172,7 +173,7 @@ void processpool<T>::run_child()
     setup_sig_pipe();
 
     int pipefd = m_sub_process[m_idx].m_pipefd[1];
-    addfd(epollfd, pipefd);
+    addfd(m_epollfd, pipefd);
 
     epoll_event events[MAX_EVENT_NUMBER];
     T *users = new T[USER_PER_PROCESS];
@@ -181,7 +182,7 @@ void processpool<T>::run_child()
     int ret = -1;
 
     while(!m_stop){
-        number = epoll_wait(epollfd, &events, MAX_EVENT_NUMBER, -1);
+        number = epoll_wait(m_epollfd, events, MAX_EVENT_NUMBER, -1);
         if((number < 0) && errno != EINTR){
             printf("epoll failure\n");
             break;
@@ -260,7 +261,7 @@ void processpool<T>::run_parent()
     int ret = -1;
 
     while(!m_stop){
-        number = epoll_wait(m_epollfd, &events, MAX_EVENT_NUMBER, -1);
+        number = epoll_wait(m_epollfd, events, MAX_EVENT_NUMBER, -1);
         if((number < 0) && errno != EINTR){
             printf("epoll failure\n");
             break;
