@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 
 #include "processpool.h"
+//#include "../codes/15/15-1processpool.h"
 
 class cgi_conn
 {
@@ -36,7 +37,7 @@ class cgi_conn
             int ret = -1;
             while(true){
                 idx = m_read_idx;
-                ret = recv(m_sockfd, m_buf + idx, BUFFER_SIZE -1 -idx, 9);
+                ret = recv(m_sockfd, m_buf + idx, BUFFER_SIZE -1 -idx, 0);
                 if(ret < 0){
                     if(errno != EAGAIN){
                         removefd(m_epollfd, m_sockfd);
