@@ -1,5 +1,5 @@
-#ifndef HTTP_CONN.H
-#define HTTP_CONN.h
+#ifndef HTTP_CONN_H
+#define HTTP_CONN_H
 
 #include <unistd.h>
 #include <signal.h>

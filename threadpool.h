@@ -1,6 +1,6 @@
 // filename: threadpool.h
-#ifndef THREADPOOL.h
-#define THREADPOOL.h
+#ifndef THREADPOOL_H
+#define THREADPOOL_H
 
 #include <list>
 #include <cstdio>
@@ -93,7 +93,7 @@ void threadpool<T>::run()
         m_queuestat.wait();
         m_queuelocker.lock();
         if(m_workqueue.empty()){
-            m_queuestat.unlock();
+            m_queuelocker.unlock();
             continue;
         }
         T *request = m_workqueue.front();

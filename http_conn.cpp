@@ -113,6 +113,7 @@ http_conn::LINE_STATUS http_conn::parse_line()
             return LINE_BAD;
         }
     }
+    return LINE_OPEN;
 }
 
 bool http_conn::read()
@@ -348,11 +349,17 @@ bool http_conn::add_response(const char *format, ...)
     return true;
 }
 
+bool http_conn::add_status_line(int status, const char *title)
+{
+    return add_response("%s %d %s\r\n", "HTTP/1.1", status, title);
+}
+
 bool http_conn::add_headers(int content_len)
 {
     add_content_length(content_len);
     add_linger();
     add_blank_line();
+    return true;
 }
 
 bool http_conn::add_content_length(int content_len)
