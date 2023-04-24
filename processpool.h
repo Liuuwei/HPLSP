@@ -284,7 +284,7 @@ void processpool<T>::run_parent()
                 sub_process_counter = (i + 1) % m_process_number;
                 send(m_sub_process[i].m_pipefd[0], (char *)&new_conn, sizeof(new_conn), 0);
                 printf("send request to child %d\n", i);
-            }else if((sockfd == sig_pipefd[0]) && (events[i].events & EPOLLIN)){
+            }else if((sockfd == sig_pipefd[0]) && (events[i].events & EPOLLIN)){/*接收到信号了*/
                 int sig;
                 char signals[1024];
                 ret = recv(sig_pipefd[0], signals, sizeof(signals), 0);
@@ -336,7 +336,7 @@ void processpool<T>::run_parent()
             }
         }
     }
-    //close(m_listenfd); /* would close by it's creater */
+    //close(m_listenfd); /* should closed by it's creater */
     close(m_epollfd);
 }
 
