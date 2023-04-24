@@ -110,9 +110,9 @@ int main(int argc, char *argv[])
                     continue;
                 }
                 users[connfd].init(connfd, client_address);
-            }else if(events[i].events & (EPOLLRDHUP | EPOLLHUP | EPOLLERR)){
+            }else if(events[i].events & (EPOLLRDHUP | EPOLLHUP | EPOLLERR)){/*意外事件*/
                 users[sockfd].close_conn();
-            }else if(events[i].events & EPOLLIN){
+            }else if(events[i].events & EPOLLIN){/*接收到任务*/
                 if(users[sockfd].read()){
                     pool->append(users + sockfd);
                 }else{
