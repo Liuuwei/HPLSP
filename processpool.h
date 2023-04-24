@@ -189,7 +189,7 @@ void processpool<T>::run_child()
         
         for(int i = 0; i < number; ++ i){
             int sockfd = events[i].data.fd;
-            if((sockfd == pipefd) && (events[i].events & EPOLLIN)){
+            if((sockfd == pipefd) && (events[i].events & EPOLLIN)){/*来自父进程的通信*/
                 int client = 0;
                 ret = recv(sockfd, (char *)&client, sizeof(client), 0);
                 if((ret < 0) && (errno != EAGAIN) || ret == 0){
